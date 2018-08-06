@@ -1,7 +1,10 @@
 #!/bin/bash
 
-xhost +si:localuser:root
+xhost +si:localuser:$(id -un)
 
-docker run -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY -ti docker-opengl
+docker run -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=$DISPLAY \
+           --user=$(id -u):$(id -g) \
+           -ti docker-opengl
 
-xhost -si:localuser:root
+xhost -si:localuser:$(id -un)
